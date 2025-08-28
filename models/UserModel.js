@@ -24,6 +24,10 @@ const userSchema = new Schema({
     enum: ["user", "admin"],
     default: "user",
   },
+  preferences: {
+    categories: [String],
+    languages: [String],
+  },
   createdAt: {
     type: Date,
     default: Date.now,

@@ -3,7 +3,8 @@ const app = express();
 const port = 3000;
 const mongoose = require("mongoose");
 require("dotenv").config();
-const router = require("./routes/usersRoute");
+const userRouter = require("./routes/usersRoute");
+const preferencesRoute = require("./routes/preferencesRoute");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -18,7 +19,8 @@ mongoose
     console.error("Error connecting to MongoDB", err);
   });
 
-app.use("/api/users", router);
+app.use("/api/users", userRouter);
+app.use("/api/users/preferences", preferencesRoute);
 
 app.listen(port, (err) => {
   if (err) {
