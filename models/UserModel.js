@@ -28,6 +28,10 @@ const userSchema = new Schema({
     topics: { type: [String], default: [] },
     language: { type: String, default: "en" },
   },
+
+  readArticles: [String],
+  favoriteArticles: [String],
+
   createdAt: {
     type: Date,
     default: Date.now,

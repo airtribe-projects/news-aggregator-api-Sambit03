@@ -1,35 +1,22 @@
-const User = require("../models/userModel");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const { registerUser, loginUser } = require("../services/authservices");
 
-const registerUser = async (user) => {
-  user.password = await bcrypt.hash(user.password, 10);
-  const newUser = await User.create(user);
-  return newUser;
+const registerUserController = async (req, res) => {
+  try {
+    const user = await registerUser(req.body);
+    res.status(201).json(user);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 };
 
-const loginUser = async (email, password) => {
-  const body = {
-    email: email,
-  };
-
-  const dbUser = await User.findOne(body);
-
-  if (!dbUser) {
-    throw new Error("User not found");
+const loginUserController = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const result = await loginUser(email, password);
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
   }
-
-  const isSamePassword = await bcrypt.compare(password, dbUser.password);
-
-  if (!isSamePassword) {
-    throw new Error("Invalid Password");
-  }
-
-  const token = jwt.sign({ id: dbUser.id }, process.env.JWT_SECRET, {
-    expiresIn: "4h",
-  });
-
-  return { status: "ok", token };
 };
 
-module.exports = { registerUser, loginUser };
+module.exports = { registerUserController, loginUserController };

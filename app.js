@@ -20,9 +20,9 @@ mongoose
     console.error("Error connecting to MongoDB", err);
   });
 
-app.use("/api/users", userRouter);
-app.use("/api/user/preferences", preferencesRoute);
-app.use("/api/user/news", newsRoute);
+app.use("/users", userRouter);
+app.use("/user/preferences", preferencesRoute);
+app.use("/news", newsRoute);
 
 app.listen(port, (err) => {
   if (err) {
