@@ -18,13 +18,17 @@ const getPreferences = async (req, res) => {
 const updatePreferences = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { categories, languages } = req.body;
+    const { topics, languages } = req.body;
+
+    console.log("Updating preferences for user:", userId);
+    console.log("New topics:", topics);
+    console.log("New languages:", languages);
 
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       {
         $set: {
-          "preferences.categories": categories,
+          "preferences.topics": topics,
           "preferences.languages": languages,
         },
       },

@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const userRouter = require("./routes/usersRoute");
 const preferencesRoute = require("./routes/preferencesRoute");
+const newsRoute = require("./routes/newsRoute");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -20,7 +21,8 @@ mongoose
   });
 
 app.use("/api/users", userRouter);
-app.use("/api/users/preferences", preferencesRoute);
+app.use("/api/user/preferences", preferencesRoute);
+app.use("/api/user/news", newsRoute);
 
 app.listen(port, (err) => {
   if (err) {

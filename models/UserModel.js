@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const userSchema = new Schema({
-  username: {
+  name: {
     type: String,
     required: true,
     unique: true,
@@ -25,8 +25,8 @@ const userSchema = new Schema({
     default: "user",
   },
   preferences: {
-    categories: [String],
-    languages: [String],
+    topics: { type: [String], default: [] },
+    language: { type: String, default: "en" },
   },
   createdAt: {
     type: Date,
