@@ -9,8 +9,6 @@ const newsRoute = require("./routes/newsRoute");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//console.log("MONGODB_URI:", process.env.MONGODB_URI);
-
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
@@ -21,7 +19,7 @@ mongoose
   });
 
 app.use("/users", userRouter);
-app.use("/user/preferences", preferencesRoute);
+app.use("/users/preferences", preferencesRoute);
 app.use("/news", newsRoute);
 
 app.listen(port, (err) => {

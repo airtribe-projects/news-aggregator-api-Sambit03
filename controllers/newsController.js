@@ -8,6 +8,11 @@ const getNews = async (req, res) => {
   try {
     const userId = req.user.id;
 
+    const GNEWS_API_KEY = process.env.GNEWS_API_KEY;
+    if (!GNEWS_API_KEY) {
+      return res.status(500).json({ error: "GNEWS_API_KEY is not defined" });
+    }
+
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -18,6 +23,7 @@ const getNews = async (req, res) => {
     }
 
     const topics = user.preferences.topics;
+
     const cacheKey = topics.sort().join("_");
 
     const cachedData = cache.get(cacheKey);
@@ -34,7 +40,7 @@ const getNews = async (req, res) => {
     const query = topics.join(" OR ");
     const url = `https://gnews.io/api/v4/search?q=${encodeURIComponent(
       query
-    )}&lang=en&country=us&max=10&apikey=${process.env.GNEWS_API_KEY}`;
+    )}&lang=en&country=us&max=10&apikey=${GNEWS_API_KEY}`;
 
     console.log("Fetching from GNews API:", url);
 

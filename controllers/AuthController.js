@@ -2,6 +2,9 @@ const { registerUser, loginUser } = require("../services/authservices");
 
 const registerUserController = async (req, res) => {
   try {
+    if (!req.body.email || !req.body.password) {
+      return res.status(400).json({ error: "Email and password are required" });
+    }
     const user = await registerUser(req.body);
     res.status(201).json(user);
   } catch (err) {
@@ -12,6 +15,9 @@ const registerUserController = async (req, res) => {
 const loginUserController = async (req, res) => {
   try {
     const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ error: "Email and password are required" });
+    }
     const result = await loginUser(email, password);
     res.status(200).json(result);
   } catch (err) {

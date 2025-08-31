@@ -13,6 +13,11 @@ const registerUser = async (user) => {
 const loginUser = async (email, password) => {
   const dbUser = await User.findOne({ email });
 
+  const JWT_SECRET = process.env.JWT_SECRET;
+  if (!JWT_SECRET) {
+    throw new Error("JWT_SECRET is not defined");
+  }
+
   if (!dbUser) {
     throw new Error("User not found");
   }
@@ -22,9 +27,13 @@ const loginUser = async (email, password) => {
     throw new Error("Invalid password");
   }
 
-  const token = jwt.sign({ id: dbUser._id }, process.env.JWT_SECRET, {
-    expiresIn: "4h",
-  });
+  const token = jwt.sign(
+    { id: dbUser._id, email: dbUser.email, role: dbUser.role },
+    JWT_SECRET,
+    {
+      expiresIn: "4h",
+    }
+  );
 
   return { status: "ok", token };
 };

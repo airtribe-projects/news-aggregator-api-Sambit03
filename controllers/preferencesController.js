@@ -20,10 +20,6 @@ const updatePreferences = async (req, res) => {
     const userId = req.user.id;
     const { topics, languages } = req.body;
 
-    console.log("Updating preferences for user:", userId);
-    console.log("New topics:", topics);
-    console.log("New languages:", languages);
-
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       {
